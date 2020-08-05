@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   security.init({
-    exchange_id: DataTypes.NUMBER,
+    exchange_id: DataTypes.INTEGER,
     ticker: DataTypes.STRING,
     name: DataTypes.STRING,
     sector: DataTypes.STRING,

@@ -39,6 +39,7 @@ app.use(function (req, res, next) {
 });
 
 require("./routes").adminRoute(app); // admin
+require("./routes").mainRoute(app); // admin
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

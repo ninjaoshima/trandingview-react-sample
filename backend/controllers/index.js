@@ -1,6 +1,6 @@
 
-const auth = require('./auth.controller');
+const main = require('./main.controller');
 
 module.exports = {
-    auth,
+    main,
 }

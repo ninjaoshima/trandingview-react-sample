@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     data_vender_id: DataTypes.INTEGER,
     ticker_id: DataTypes.INTEGER,
     price_date: DataTypes.DATEONLY,
-    open_price: DataTypes.DECIMAL(11,6),
+    open_price: {
+      type: DataTypes.DECIMAL(11,6)
+    },
     high_price: DataTypes.DECIMAL(11,6),
     low_price: DataTypes.DECIMAL(11,6),
     close_price: DataTypes.DECIMAL(11,6),

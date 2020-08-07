@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { createChart, CrosshairMode } from 'lightweight-charts';
+import { createChart } from 'lightweight-charts';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import HistroicalService from '../../services/HistroicalService';
+
+import { ChartConfig, addCandlestickSeries, addHistogramSeries } from './ChartConfig';
 
 // let chart
 let candlestickSeries
@@ -21,6 +23,7 @@ const Dashboard = () => {
     const [ticker, setTicker] = useState(null);
     const [tickerOptions, setTickerOptions] = useState([]);
     const [lastCandle, setLastCandle] = useState([]);
+    const [searchFlag, setSearchFlag] = useState(false);
 
     useEffect(() => {
         HistroicalService.getTickers().then(res => {
@@ -38,55 +41,11 @@ const Dashboard = () => {
     }, [ticker]);
 
     useEffect(() => {
-        chart.current = createChart(chartContainerRef.current, {
-            width: chartContainerRef.current.clientWidth,
-            height: 500,
-            layout: {
-                backgroundColor: '#253248',
-                textColor: 'rgba(255, 255, 255, 0.9)',
-            },
-            grid: {
-                vertLines: {
-                    color: '#334158',
-                },
-                horzLines: {
-                    color: '#334158',
-                },
-            },
-            crosshair: {
-                mode: CrosshairMode.Normal,
-            },
-            priceScale: {
-                borderColor: '#485c7b',
-            },
-            timeScale: {
-                borderColor: '#485c7b',
-            },
-        });
+        chart.current = createChart(chartContainerRef.current, ChartConfig(chartContainerRef.current));
 
-        candlestickSeries = chart.current.addCandlestickSeries({
-            upColor: '#4bffb5',
-            downColor: '#ff4976',
-            borderDownColor: '#ff4976',
-            borderUpColor: '#4bffb5',
-            wickDownColor: '#838ca1',
-            wickUpColor: '#838ca1',
-        });
+        candlestickSeries = chart.current.addCandlestickSeries(addCandlestickSeries);
 
-        volumeSeries = chart.current.addHistogramSeries({
-            color: '#182233',
-            lineWidth: 2,
-            priceFormat: {
-              type: 'volume',
-            },
-            overlay: true,
-            scaleMargins: {
-              top: 0.8,
-              bottom: 0,
-            },
-          });
-
-
+        volumeSeries = chart.current.addHistogramSeries(addHistogramSeries);
     }, []);
 
     useEffect(() => {
@@ -112,17 +71,75 @@ const Dashboard = () => {
 
     return (
         <>
-            <div className="container mt-5">
-                <h2 className="text-center">{`AI-LGO "${ticker?ticker.label: ""}"`}</h2>
-                <Select
-                    styles={{
-                        menu: provided => ({ ...provided, zIndex: 9999 })
-                    }}
-                    components={animatedComponents}
-                    options={tickerOptions}
-                    onChange={val => setTicker(val)}
-                />
-                <div ref={chartContainerRef} id='chart' className="mt-5 chart-container" />
+            <div className="root_container">
+                <div className="top_container">
+                    {!searchFlag ?
+                        (
+                            <div className="top-group">
+                                <div className="top-content">
+                                    <div className="top-wrap">
+                                        <div className="top-buttons-group">
+                                            <div className="header-toolbar-symbol-search">
+                                                <input
+                                                    className="input-text"
+                                                    value={ticker ? ticker.label : ""}
+                                                    onClick={() => setSearchFlag(true)}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="top-buttons-group">
+                                            <span>D</span>
+                                        </div>
+                                        <div className="top-buttons-group fill-groups">
+                                            {/* <span>D</span> */}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                            <Select
+                                styles={{
+                                    menu: provided => ({ ...provided, zIndex: 9999 })
+                                }}
+                                isClearable={true}
+                                components={animatedComponents}
+                                options={tickerOptions}
+                                onChange={val => {
+                                    // console.log(val);
+                                    if(val) setTicker(val);
+                                    setSearchFlag(false);
+                                    
+                                }}
+                                value={ticker}
+                            />
+                            <span>*</span>
+                            </>
+                        )}
+
+                </div>
+                <div className="left_container"></div>
+                <div className="center_container">
+                    <div className="symbol-info">
+                        <div className="symbol-item">
+                            <div className="symbol-no-wrapper">
+                                <div className="symbol-title">
+                                    <div className="symbol-with-dot">{ticker?ticker.name: ""}</div>
+                                    <div className="dot"></div>
+                                    <div className="symbol-with-dot">{ticker?ticker.sector: ""}</div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    <div ref={chartContainerRef} id='chart' className="chart-container" />
+                </div>
+
+
             </div>
         </>
     );

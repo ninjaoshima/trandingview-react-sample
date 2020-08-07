@@ -11,7 +11,8 @@ module.exports = {
             const data = await security.findAll({
                 attributes: [
                     [sequelize.literal("ticker"), 'label'],
-                    [sequelize.literal("id"), 'value']
+                    [sequelize.literal("id"), 'value'],
+                    "name", "sector"
                 ],
                 // where: {
                 //     [Op.and]: [

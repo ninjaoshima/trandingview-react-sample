@@ -1,7 +1,7 @@
 import { CrosshairMode } from 'lightweight-charts';
 export const ChartConfig = (chartRef) => {
     return {
-        width: chartRef.clientWidth,
+        width: chartRef.clientWidth - 200,
         height: chartRef.clientHeight,
         layout: {
             backgroundColor: '#253248',

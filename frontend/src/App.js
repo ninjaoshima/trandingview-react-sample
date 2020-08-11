@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import "./styles/index.scss";
+import Home from "./pages/Home";
 
-import Dashboard from './pages/Dashboard';
+// import Dashboard from './pages/Dashboard';
 
 class App extends Component {
   render() {
-    return <Dashboard/>;
+    return <Home/>;
   }
 }
 

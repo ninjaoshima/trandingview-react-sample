@@ -104,17 +104,6 @@ const Dashboard = () => {
                                     <InputGroup.Append>
                                         <Button variant="light"><i className="fa fa-search fa-fw"></i></Button>
                                     </InputGroup.Append>
-                                    <DropdownButton
-                                        variant="light"
-                                        title="Time"
-                                        id="input-group-dropdown-1"
-                                        style={{backgroundColor:"white"}}
-                                    >
-                                        <Dropdown.Item href="#">1min</Dropdown.Item>
-                                        <Dropdown.Item href="#">5min</Dropdown.Item>
-                                        <Dropdown.Item href="#">30min</Dropdown.Item>
-                                        <Dropdown.Item href="#">60min</Dropdown.Item>
-                                    </DropdownButton>
                                     <InputGroup.Append>
                                         <DatePicker
                                             variant="light"
@@ -131,6 +120,17 @@ const Dashboard = () => {
                                             }
                                         />
                                     </InputGroup.Append>
+                                    <DropdownButton
+                                        variant="light"
+                                        title="Time"
+                                        id="input-group-dropdown-1"
+                                        style={{backgroundColor:"white"}}
+                                    >
+                                        <Dropdown.Item href="#">1min</Dropdown.Item>
+                                        <Dropdown.Item href="#">5min</Dropdown.Item>
+                                        <Dropdown.Item href="#">30min</Dropdown.Item>
+                                        <Dropdown.Item href="#">60min</Dropdown.Item>
+                                    </DropdownButton>
                                 </InputGroup>
                             </Form>
                         </Col>

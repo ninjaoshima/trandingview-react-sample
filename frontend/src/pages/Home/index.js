@@ -57,7 +57,6 @@ const Home = () => {
                                 <Nav.Link href="#RealTime"><Button variant="dark">RealTime</Button></Nav.Link>
                                 <Nav.Link href="#Contact US"><Button variant="dark">Contact Us</Button></Nav.Link>
                                 <Nav.Link href="#Login"><Button variant="dark">Login</Button></Nav.Link>
-                                <Nav.Link href="#Blink"><Button variant="dark">Blink</Button></Nav.Link>
                             </Nav>
                             <Form inline>
                                 <InputGroup className="mb-3">

@@ -3,27 +3,44 @@ import { createChart } from 'lightweight-charts';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import HistroicalService from '../../services/HistroicalService';
-
+import { Container, Row, Col, Nav, Navbar, Card, Form, Button, FormControl, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { ChartConfig, addCandlestickSeries, addHistogramSeries } from './ChartConfig';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 // let chart
 let candlestickSeries
 let volumeSeries
 
 const animatedComponents = makeAnimated();
+let ind = 0;
 
 const Dashboard = () => {
-
-
     const chartContainerRef = useRef();
     const chart = useRef();
     const resizeObserver = useRef();
-
-
+    const [date, setDate] = useState(new Date())
     const [ticker, setTicker] = useState(null);
     const [tickerOptions, setTickerOptions] = useState([]);
     const [lastCandle, setLastCandle] = useState([]);
     const [searchFlag, setSearchFlag] = useState(false);
+    const [checkValue, setcheckValue] = useState(null);
+
+    const onRadioChange = (e) => {
+        ind++
+        if (ind > 1) ind = 0;
+        setcheckValue(ind);
+        console.log(ind);
+        console.log(e.currentTarget.value)
+    }
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log(this.state);
+    }
+
 
     useEffect(() => {
         HistroicalService.getTickers().then(res => {
@@ -70,78 +87,57 @@ const Dashboard = () => {
 
 
     return (
-        <>
-            <div className="root_container">
-                <div className="top_container">
-                    {!searchFlag ?
-                        (
-                            <div className="top-group">
-                                <div className="top-content">
-                                    <div className="top-wrap">
-                                        <div className="top-buttons-group">
-                                            <div className="header-toolbar-symbol-search">
-                                                <input
-                                                    className="input-text"
-                                                    value={ticker ? ticker.label : ""}
-                                                    onClick={() => setSearchFlag(true)}
+        <div className="root_container" style={{ backgroundColor: "#ffffff" }}>
+            <div className="center_container" style={{ left: "26px" }}>
+                <div ref={chartContainerRef} id='chart' className="chart-container"></div>
+                <div style={{ zIndex: "99", position: "absolute", top: "0px", width: "100%" }}>
+                    <Row>
+                        <Col md={8}>
+                            <Form inline>
+                                <InputGroup className="mb-5">
+                                    <FormControl
+                                        placeholder="Search"
+                                        aria-label="Recipient's username"
+                                        aria-describedby="basic-addon2"
+                                        style={{borderRadius:0}}
+                                    />
+                                    <InputGroup.Append>
+                                        <Button variant="light"><i className="fa fa-search fa-fw"></i></Button>
+                                    </InputGroup.Append>
+                                    <DropdownButton
+                                        variant="light"
+                                        title="Time"
+                                        id="input-group-dropdown-1"
+                                        style={{backgroundColor:"white"}}
+                                    >
+                                        <Dropdown.Item href="#">1min</Dropdown.Item>
+                                        <Dropdown.Item href="#">5min</Dropdown.Item>
+                                        <Dropdown.Item href="#">30min</Dropdown.Item>
+                                        <Dropdown.Item href="#">60min</Dropdown.Item>
+                                    </DropdownButton>
+                                    <InputGroup.Append>
+                                        <DatePicker
+                                            variant="light"
+                                            dateFormat="yyyy/MM/dd"
+                                            selected={date}
+                                            onChange={date => setDate(date)}
+                                            customInput={
+                                                <FormControl
+                                                    placeholder="Date"
+                                                    aria-label="Recipient's username"
+                                                    aria-describedby="basic-addon2"
+                                                    style={{borderRadius:0}}
                                                 />
-                                            </div>
-                                        </div>
-
-                                        <div className="top-buttons-group">
-                                            <span>D</span>
-                                        </div>
-                                        <div className="top-buttons-group fill-groups">
-                                            {/* <span>D</span> */}
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        ) : (
-                            <>
-                            <Select
-                                styles={{
-                                    menu: provided => ({ ...provided, zIndex: 9999 })
-                                }}
-                                isClearable={true}
-                                components={animatedComponents}
-                                options={tickerOptions}
-                                onChange={val => {
-                                    // console.log(val);
-                                    if(val) setTicker(val);
-                                    setSearchFlag(false);
-                                    
-                                }}
-                                value={ticker}
-                            />
-                            <span>*</span>
-                            </>
-                        )}
-
+                                            }
+                                        />
+                                    </InputGroup.Append>
+                                </InputGroup>
+                            </Form>
+                        </Col>
+                    </Row>
                 </div>
-                <div className="left_container"></div>
-                <div className="center_container">
-                    <div className="symbol-info">
-                        <div className="symbol-item">
-                            <div className="symbol-no-wrapper">
-                                <div className="symbol-title">
-                                    <div className="symbol-with-dot">{ticker?ticker.name: ""}</div>
-                                    <div className="dot"></div>
-                                    <div className="symbol-with-dot">{ticker?ticker.sector: ""}</div>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div ref={chartContainerRef} id='chart' className="chart-container" />
-                </div>
-
-
             </div>
-        </>
+        </div>
     );
 }
 

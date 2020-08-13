@@ -35,6 +35,7 @@ module.exports = {
     async getHistorical(req, res) {
         try {
             const ticker_id = req.params.ticker;
+            const date = req.params.date;
             const result = await daily_price.findAll({
                 attributes: [
                     [sequelize.literal("price_date"), 'time'],
@@ -47,7 +48,10 @@ module.exports = {
                 ],
                 where: {
                     [Op.and]: [
-                        {ticker_id}
+                        {ticker_id},
+                        {price_date: {
+                            [Op.lte] : date 
+                        }}
                     ]
                 }
             });

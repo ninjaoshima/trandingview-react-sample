@@ -10,11 +10,15 @@ class HistroicalService {
             .catch(error => handleErrorResponseObject(error));
     }
 
-    getChartData = (ticker) => {
+    getChartData = (ticker, date) => {
         const api = getInsightBackendAPI();
-        return axios.get(`${api}/main/historical/${ticker}`, {})
+        return axios.get(`${api}/main/historical/${ticker}/${date}`, {})
             .then(res => res.data)
             .catch(error => handleErrorResponseObject(error));
+    }
+
+    getSearchChartData = (searchStr) => {
+        console.log(searchStr);
     }
 }
 

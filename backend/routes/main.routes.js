@@ -6,5 +6,5 @@ module.exports = function (app) {
    * Users routes
    */
   app.get("/main/tickers", adminController.getTickers);
-  app.get("/main/historical/:ticker", adminController.getHistorical);
+  app.get("/main/historical/:ticker/:date", adminController.getHistorical);
 };

@@ -86,3 +86,6 @@ a {
     color: white;
     font-family: Trebuchet MS,roboto,ubuntu,sans-serif;
 }
+.css-2b097c-container {
+    min-width: 300px;
+}

@@ -39,9 +39,10 @@ const Home = () => {
                         hide_side_toolbar = "false"
                         allow_symbol_change = "true"
                         details = "true"
-                        theme = "lite"
+                        theme = "light"
                         width = "100%"
                         backgroundColor = "white"
+                        withdateranges = "true"
                         
 
                     />
